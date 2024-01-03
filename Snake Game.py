@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 #Constants
 width = 640
@@ -8,6 +9,7 @@ pixels = 32
 squares = int(width / pixels)
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
+score_value = 0
 
 #Colors
 BG1 = (156, 210, 54)
@@ -47,7 +49,8 @@ while running:
             counter += 1
             
 #Draw Player Snake
-    pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (32,32)])
+    player_head = pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (32,32)])
+    
 
  #Movement   
     keys = pygame.key.get_pressed()
@@ -67,7 +70,7 @@ while running:
         player_vel_y = 0
         player_vel_x = movement_speed * dt
         current_direction = "RIGHT"
-        
+#Movement Update(s)   
     player_pos_x += player_vel_x
     player_pos_y += player_vel_y
              
@@ -76,17 +79,19 @@ while running:
         player_pos_x = 0
     elif(player_pos_x >= 608):
         player_pos_x = 608
-        
+               
     if(player_pos_y <= 0):
         player_pos_y = 0
     elif(player_pos_y >= 608):
         player_pos_y = 608
         
 #Food
-    pygame.draw.rect(screen, "red", [(food_pos_x, food_pos_y), (32, 32)])
+    distance_head_food = math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
+    food = pygame.draw.rect(screen, "red", [(food_pos_x, food_pos_y), (32, 32)])
+    if distance_head_food < 10:
+        score_value += 1
 
-#Score
-    score_value = 0
+#Scoreboard
     font = pygame.font.Font("freesansbold.ttf", 32)
     text_x_coord = 240
     text_y_coord = 5
@@ -94,10 +99,10 @@ while running:
     score = font.render("Score: " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (text_x_coord, text_y_coord))
    
-    # flip() the display to put your work on screen
+    #Update Screen
     pygame.display.flip()
 
-    # dt is delta time in seconds since last frame
+    #Delta Time
     dt = clock.tick(60) / 1000
 
 pygame.quit()
