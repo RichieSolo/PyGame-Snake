@@ -1,31 +1,29 @@
 import pygame
 import random
 
-# pygame setup
-pygame.init()
-screen = pygame.display.set_mode((640, 640))
+#Constants
+width = 640
+height = 640
+pixels = 32
+squares = int(width / pixels)
+screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
-running = True
-dt = 0
-cell_size = 32
-squares = int(640/cell_size)
 
 #Colors
 BG1 = (156, 210, 54)
 BG2 = (147, 203, 57)
 
-#get player pos
+#Player Specifications
 player_pos_x = 640 / 2
 player_pos_y = 640 / 2
-
-#player size
-player_width = 10
-player_height = 10
-
-#player velocity
 player_vel_x = 0
 player_vel_y = 0
 movement_speed = 200
+
+# pygame setup
+pygame.init()
+running = True
+dt = 0
 
 #Food pos
 posX = random.randrange(0, 640, 10)
