@@ -20,22 +20,22 @@ player_vel_x = 0
 player_vel_y = 0
 movement_speed = 200
 
-# pygame setup
+#Food Specifications
+food_pos_x = random.randrange(0, 640, 10)
+food_pos_y = random.randrange(0, 640, 10)
+
+#Pygame Setup
 pygame.init()
 running = True
 dt = 0
-
-#Food pos
-posX = random.randrange(0, 640, 10)
-posY = random.randrange(0, 640, 10)
-
 
 #Game program loop
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
- #Draw           
+            
+ #Draw Background          
     screen.fill(BG1)
     counter = 0
     for row in range(squares):
@@ -45,7 +45,8 @@ while running:
             if col == squares - 1:
                 continue
             counter += 1
-     
+            
+#Draw Player Snake
     pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (32,32)])
 
  #Movement   
@@ -82,12 +83,7 @@ while running:
         player_pos_y = 608
         
 #Food
-    pygame.draw.rect(screen, "red", [(posX, posY), (32, 32)])
-    
-    
-#Segmentation
-
-    snake_segments = []
+    pygame.draw.rect(screen, "red", [(food_pos_x, food_pos_y), (32, 32)])
 
 #Score
     score_value = 0
@@ -101,8 +97,7 @@ while running:
     # flip() the display to put your work on screen
     pygame.display.flip()
 
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
+    # dt is delta time in seconds since last frame
     dt = clock.tick(60) / 1000
 
 pygame.quit()
