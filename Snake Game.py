@@ -25,8 +25,8 @@ player_vel_y = 0
 movement_speed = 200
 
 #Food Specifications
-food_pos_x = random.randrange(0, 640, 10)
-food_pos_y = random.randrange(0, 640, 10)
+food_pos_x = random.randrange(0, 640 - pixels, 32)
+food_pos_y = random.randrange(0, 640 - pixels, 32)
 
 #Pygame Setup
 pygame.init()
@@ -106,8 +106,8 @@ while running:
     if distance_head_food < 10:
         score_value += 1
         draw(screen)
-        food_pos_x = random.randrange(0, 640, 10)
-        food_pos_y = random.randrange(0, 640, 10)
+        food_pos_x = random.randrange(0, 640 - pixels, 32)
+        food_pos_y = random.randrange(0, 640 - pixels, 32)
         spawn_food(food_pos_x, food_pos_y)
                   
 #Scoreboard
