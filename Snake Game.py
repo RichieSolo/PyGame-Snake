@@ -10,6 +10,8 @@ squares = int(width / pixels)
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 score_value = 0
+text_x_coord = 240
+text_y_coord = 5
 
 #Colors
 BG1 = (156, 210, 54)
@@ -31,13 +33,8 @@ pygame.init()
 running = True
 dt = 0
 
-#Game program loop
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-            
- #Draw Background          
+#Draw Background
+def draw(screen):
     screen.fill(BG1)
     counter = 0
     for row in range(squares):
@@ -48,10 +45,28 @@ while running:
                 continue
             counter += 1
             
+#Draw Scoreboard           
+def draw_score(text_x_coord, text_y_coord):
+    font = pygame.font.Font("freesansbold.ttf", 32)
+    score = font.render("Score: " + str(score_value), True, (255, 255, 255))
+    screen.blit(score, (text_x_coord, text_y_coord))
+
+#Draw/Randomize Food spawn           
+def spawn_food(food_pos_x, food_pos_y):
+    pygame.draw.rect(screen, "red", [(food_pos_x, food_pos_y), (32, 32)])
+
+#Game program loop -----------------------------------------------------------------------------------------
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+            
+ #Draw Background 
+    draw(screen)         
+  
 #Draw Player Snake
     player_head = pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (32,32)])
     
-
  #Movement   
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
@@ -86,23 +101,22 @@ while running:
         player_pos_y = 608
         
 #Food
+    spawn_food(food_pos_x, food_pos_y)
     distance_head_food = math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
-    food = pygame.draw.rect(screen, "red", [(food_pos_x, food_pos_y), (32, 32)])
     if distance_head_food < 10:
         score_value += 1
-
+        draw(screen)
+        food_pos_x = random.randrange(0, 640, 10)
+        food_pos_y = random.randrange(0, 640, 10)
+        spawn_food(food_pos_x, food_pos_y)
+                  
 #Scoreboard
-    font = pygame.font.Font("freesansbold.ttf", 32)
-    text_x_coord = 240
-    text_y_coord = 5
-    
-    score = font.render("Score: " + str(score_value), True, (255, 255, 255))
-    screen.blit(score, (text_x_coord, text_y_coord))
+    draw_score(text_x_coord, text_y_coord)
    
-    #Update Screen
+#Update Screen
     pygame.display.flip()
 
-    #Delta Time
+#Delta Time
     dt = clock.tick(60) / 1000
 
 pygame.quit()
