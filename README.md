@@ -16,3 +16,11 @@
 - *Endgame conditions:* Define conditions for the game to end, such as the snake touching itself or the game boundaries. A `player_death()` function could be triggered when the distance between the head and body or head and boundaries reaches a certain value.
 
 - *Restart button:* Create a simple restart button that resets the game to its default settings.
+
+**Definiton of Done**
+
+*Definition:* Fully working Snake game using Python. Must abide by basic Snake game parameters and work according to specifications.
+
+**Goal of Project:**
+
+*Goal:* To be exposed to Python's, syntax and logic; as well as to learn how to connect and effectively utilize available libraries on Python.
