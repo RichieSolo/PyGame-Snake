@@ -1,29 +1,18 @@
 # PyGame-Snake
 Python Snake Pygame
 
-Done-----------------------------------------------
+Done
 
-*Randomized food spread:
-When player touches food, food dissapears, new one will generate.
-Solution: Using the Distance formula, calculated distance between player head and food. When player head touches food, the background is redrawn and the food's position is randomly generated again.
+    Randomized food spread: When the player touches food, the food disappears, and new food generates. The solution involves using the Distance formula to calculate the distance between the player's head and the food. Upon collision, the background redraws, and the food's position regenerates randomly.
 
-*Counter (Points):
-Solution: Counter changes according to each food eaten by player; calculated by checking when the head is 15 pixels away from the food, if so, add 1 to the Score counter
+    Counter (Points): The counter changes with each food item eaten by the player. It's calculated by checking when the head is within 15 pixels of the food. If so, 1 is added to the score counter.
 
-*Movement (According to length): 
-Snake head must point in direction of key press, remaining segments must follow
-Solution: Movement is constant in one direction, must press a key again to change direction. 
+    Movement (According to length): The snake's head points in the direction of key presses, while remaining segments follow suit. Movement remains constant in one direction, requiring another key press to change direction.
 
-To do---------------------------------------------
+To Do
 
-*Segmentation:
-Snake must gain one rectangle of same size as head and follow the head according to movement.
-Idea: Create some type of function that recognizes the head and adds a new segment when the food is eaten.
+    Segmentation: Implement a function that recognizes when the snake eats food, adding a new segment of the same size as the head to follow the head's movement.
 
-*Endgame conditions:
-Death (Touch self, touch barrier)
-Idea: When either the distance between head to body or head to boundary is equal to some int, write function called player_death() that ends game.
+    Endgame conditions: Define conditions for the game to end, such as the snake touching itself or the game boundaries. A player_death() function could be triggered when the distance between the head and body or head and boundaries reaches a certain value.
 
-*Restart button
-Idea: Create simple "restart" button that resets game to default setting.
-
+    Restart button: Create a simple restart button that resets the game to its default settings.
