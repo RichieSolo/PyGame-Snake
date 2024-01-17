@@ -2,121 +2,109 @@ import pygame
 import random
 import math
 
-#Constants
-width = 640
-height = 640
-pixels = 32
-squares = int(width / pixels)
-screen = pygame.display.set_mode((width, height))
-clock = pygame.time.Clock()
-score_value = 0
-text_x_coord = 240
-text_y_coord = 5
-
-#Colors
+# Constants
+WIDTH = 640
+HEIGHT = 640
+PIXELS = 32
+SQUARES = int(WIDTH / PIXELS)
 BG1 = (156, 210, 54)
 BG2 = (147, 203, 57)
 
-#Player Specifications
-player_pos_x = 640 / 2
-player_pos_y = 640 / 2
-player_vel_x = 0
-player_vel_y = 0
+# Player
+player_pos_x = WIDTH / 2
+player_pos_y = HEIGHT / 2
+player_vel_x = 0 
+player_vel_y = 0 
 movement_speed = 200
 
-#Food Specifications
-food_pos_x = random.randrange(0, 640 - pixels, 32)
-food_pos_y = random.randrange(0, 640 - pixels, 32)
+# Food
+food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
+food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
 
-#Pygame Setup
+# Pygame Setup
 pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+clock = pygame.time.Clock()
 running = True
 dt = 0
+score_value = 0
+scoreboard_x_coord = 240
+scoreboard_y_coord = 5
 
-#Draw Background
-def draw(screen):
+# Functions
+def draw_background(screen):
     screen.fill(BG1)
     counter = 0
-    for row in range(squares):
-        for col in range(squares):
+    for row in range(SQUARES):
+        for col in range(SQUARES):
             if counter % 2 == 0:
-                pygame.draw.rect(screen, BG2, (col * 32, row * 32, 32, 32))
-            if col == squares - 1:
+                pygame.draw.rect(screen, BG2, (col * PIXELS, row * PIXELS, PIXELS, PIXELS))
+            if col == SQUARES - 1:
                 continue
             counter += 1
-            
-#Draw Scoreboard           
-def draw_score(text_x_coord, text_y_coord):
+
+def draw_scoreboard(screen, score_value, x, y):
     font = pygame.font.Font("freesansbold.ttf", 32)
     score = font.render("Score: " + str(score_value), True, (255, 255, 255))
-    screen.blit(score, (text_x_coord, text_y_coord))
+    screen.blit(score, (x, y))
 
-#Draw/Randomize Food spawn           
-def spawn_food(food_pos_x, food_pos_y):
-    pygame.draw.rect(screen, "red", [(food_pos_x, food_pos_y), (32, 32)])
+def spawn_food(screen, x, y):
+    pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
+    
 
-#Game program loop -----------------------------------------------------------------------------------------
+# Game Program Loop
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             
- #Draw Background 
-    draw(screen)         
-  
-#Draw Player Snake
-    player_head = pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (32,32)])
+    draw_background(screen)
     
- #Movement   
+    player_head = pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (PIXELS, PIXELS)])
+    
+    #Player Movement
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
         player_vel_x = 0
-        player_vel_y = -movement_speed * dt
-        current_direction = "UP"
+        player_vel_y = -movement_speed * dt 
     if keys[pygame.K_s]:
         player_vel_x = 0
-        player_vel_y = movement_speed * dt
-        current_direction = "DOWN"
+        player_vel_y = movement_speed * dt 
     if keys[pygame.K_a]:
         player_vel_y = 0
-        player_vel_x = -movement_speed * dt
-        current_direction = "LEFT"
+        player_vel_x = -movement_speed * dt 
     if keys[pygame.K_d]:
         player_vel_y = 0
-        player_vel_x = movement_speed * dt
-        current_direction = "RIGHT"
-#Movement Update(s)   
-    player_pos_x += player_vel_x
-    player_pos_y += player_vel_y
-             
-#Boundaries       
-    if(player_pos_x <= 0):
+        player_vel_x = movement_speed * dt 
+
+    player_pos_x += player_vel_x 
+    player_pos_y += player_vel_y 
+    
+    #Boundaries
+    if player_pos_x <= 0:
         player_pos_x = 0
-    elif(player_pos_x >= 608):
-        player_pos_x = 608
-               
-    if(player_pos_y <= 0):
+    elif player_pos_x >= WIDTH - PIXELS:
+        player_pos_x = WIDTH - PIXELS
+
+    if player_pos_y <= 0:
         player_pos_y = 0
-    elif(player_pos_y >= 608):
-        player_pos_y = 608
+    elif player_pos_y >= HEIGHT - PIXELS:
+        player_pos_y = HEIGHT - PIXELS
         
-#Food
-    spawn_food(food_pos_x, food_pos_y)
+    #Food Handling
+    spawn_food(screen, food_pos_x, food_pos_y) 
     distance_head_food = math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
     if distance_head_food < 10:
         score_value += 1
-        draw(screen)
-        food_pos_x = random.randrange(0, 640 - pixels, 32)
-        food_pos_y = random.randrange(0, 640 - pixels, 32)
-        spawn_food(food_pos_x, food_pos_y)
-                  
-#Scoreboard
-    draw_score(text_x_coord, text_y_coord)
-   
-#Update Screen
-    pygame.display.flip()
+        draw_background(screen)
+        food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
+        food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
+        spawn_food(screen, food_pos_x, food_pos_y)
 
-#Delta Time
+    draw_scoreboard(screen, score_value, scoreboard_x_coord, scoreboard_y_coord)
+
+    pygame.display.flip()
+    
     dt = clock.tick(60) / 1000
 
 pygame.quit()
