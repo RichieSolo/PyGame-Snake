@@ -26,3 +26,6 @@
 
 - *Restart button:* Create a simple restart button that resets the game to its default settings.
 
+## Updates Richie Solomon 
+    moved food function to the top of the code 
+    

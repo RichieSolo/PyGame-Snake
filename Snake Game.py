@@ -17,8 +17,13 @@ player_vel_x = 0
 player_vel_y = 0 
 movement_speed = 200
 
-# Food
+
+#Testing variable
+event_number = 0
+
+# # Food
 food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
+
 food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
 
 # Pygame Setup
@@ -43,6 +48,8 @@ def draw_background(screen):
                 continue
             counter += 1
 
+    
+
 def draw_scoreboard(screen, score_value, x, y):
     font = pygame.font.Font("freesansbold.ttf", 32)
     score = font.render("Score: " + str(score_value), True, (255, 255, 255))
@@ -50,18 +57,29 @@ def draw_scoreboard(screen, score_value, x, y):
 
 def spawn_food(screen, x, y):
     pygame.draw.rect(screen, "red", [(x, y), (PIXELS, PIXELS)])
-    
 
 # Game Program Loop
+
 while running:
+    # Food
+  
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             
     draw_background(screen)
     
-    player_head = pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (PIXELS, PIXELS)])
     
+
+    player_head = pygame.draw.rect(screen, "black", [(player_pos_x, player_pos_y), (PIXELS, PIXELS)])
+    # Print the x position of the player
+    event_number += 1
+    print("Event number:", event_number)
+        
+
+# Print the y position of the player
+    print("Player's X,Y Position: " + str(player_pos_x), ',', str(player_pos_y))
+    # spawn_food(screen, score_value, food_pos_x, food_pos_y, player_pos_x, player_pos_y)
     #Player Movement
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
@@ -90,16 +108,17 @@ while running:
         player_pos_y = 0
     elif player_pos_y >= HEIGHT - PIXELS:
         player_pos_y = HEIGHT - PIXELS
-        
+            
     #Food Handling
     spawn_food(screen, food_pos_x, food_pos_y) 
-    distance_head_food = math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
-    if distance_head_food < 10:
-        score_value += 1
+    distance_head_food =  math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
+    if distance_head_food <32:
         draw_background(screen)
         food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
         food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
         spawn_food(screen, food_pos_x, food_pos_y)
+        draw_background(screen)
+        score_value += 1
 
     draw_scoreboard(screen, score_value, scoreboard_x_coord, scoreboard_y_coord)
 
