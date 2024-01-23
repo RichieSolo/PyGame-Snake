@@ -109,10 +109,14 @@ while running:
     elif player_pos_y >= HEIGHT - PIXELS:
         player_pos_y = HEIGHT - PIXELS
             
-    #Food Handling
+    #Spawn Food & Food Collision
+    #  This block of code calculated the distance between the head of the snake and the food
+    #  and if the distance is less than the size of the snake, then the food respawns and the score increases by 1
+    #
+    #   
     spawn_food(screen, food_pos_x, food_pos_y) 
     distance_head_food =  math.sqrt(pow(food_pos_x - player_pos_x, 2) + pow(food_pos_y - player_pos_y, 2))
-    if distance_head_food <32:
+    if distance_head_food < PIXELS:
         draw_background(screen)
         food_pos_x = random.randrange(0, WIDTH - PIXELS, 32)
         food_pos_y = random.randrange(0, HEIGHT - PIXELS, 32)
